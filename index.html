@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Jhondrhey Bio</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet"/>
+  <link rel="icon" type="image/png" href="https://yt3.googleusercontent.com/IVqzx0L3Ffpapttg-WK5yU9frk4AIVKixHnmmQjQ7RLrt4e66-7Ox6srKG_QVat5ceEq-98-s9s=s160-c-k-c0x00ffffff-no-rj" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+    :root {
+      --primary-color: #00ffff;
+      --secondary-color: #ff00ff;
+      --accent-color: #ffff00;
+      --bg-dark: #000000;
+    }
+
+    * {
+      font-family: 'Poppins', sans-serif;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: var(--bg-dark);
+      margin: 0;
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 20% 20%, rgba(0, 255, 255, 0.1) 0%, transparent 40%),
+        radial-gradient(circle at 80% 80%, rgba(255, 0, 255, 0.1) 0%, transparent 40%),
+        radial-gradient(circle at 50% 50%, rgba(255, 255, 0, 0.05) 0%, transparent 60%);
+      pointer-events: none;
+      animation: bgPulse 10s ease infinite;
+    }
+
+    @keyframes bgPulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+
+    .neon-border {
+      position: relative;
+    }
+
+    .neon-border::before,
+    .neon-border::after {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: 24px;
+      background: conic-gradient(
+        from 0deg,
+        var(--primary-color),
+        var(--secondary-color),
+        var(--accent-color),
+        var(--primary-color)
+      );
+      animation: rotate 4s linear infinite;
+      z-index: -1;
+    }
+
+    .neon-border::after {
+      filter: blur(10px);
+    }
+
+    @keyframes rotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    #overlay {
+      position: fixed;
+      inset: 0;
+      background: black;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      opacity: 1;
+      transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    #overlay.hidden {
+      opacity: 0;
+      transform: scale(1.5) rotate(10deg);
+      pointer-events: none;
+    }
+
+    .profile-container {
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(20px);
+      border-radius: 20px;
+      padding: 2.5rem;
+      width: 450px;
+      text-align: center;
+      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .profile-container::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(45deg, 
+        transparent 0%, 
+        rgba(255, 255, 255, 0.05) 50%, 
+        transparent 100%
+      );
+      transform: translateX(-100%);
+      transition: transform 0.6s ease;
+    }
+
+    .profile-container:hover::before {
+      transform: translateX(100%);
+    }
+
+    .profile-container:hover {
+      transform: translateY(-10px) scale(1.02);
+    }
+
+    .profile-image {
+      position: relative;
+      width: 160px;
+      height: 160px;
+      margin: 0 auto 1.5rem;
+    }
+
+    .profile-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 4px solid transparent;
+      background: linear-gradient(45deg, var(--primary-color), var(--secondary-color)) border-box;
+      -webkit-mask: 
+        linear-gradient(#fff 0 0) padding-box, 
+        linear-gradient(#fff 0 0);
+      -webkit-mask-composite: destination-out;
+      mask-composite: exclude;
+      transition: transform 0.3s ease;
+    }
+
+    .profile-image::after {
+      content: '';
+      position: absolute;
+      inset: -10px;
+      border-radius: 50%;
+      background: conic-gradient(
+        from 0deg,
+        transparent 0deg,
+        var(--primary-color) 120deg,
+        var(--secondary-color) 240deg,
+        transparent 360deg
+      );
+      animation: rotateGlow 2s linear infinite;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .profile-image:hover::after {
+      opacity: 1;
+    }
+
+    @keyframes rotateGlow {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .external-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 25px;
+      margin-top: 25px;
+    }
+
+    .external-buttons a {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      text-decoration: none;
+      position: relative;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .external-buttons a::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(45deg, 
+        var(--primary-color),
+        var(--secondary-color),
+        var(--accent-color)
+      );
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .external-buttons a:hover {
+      transform: translateY(-5px) scale(1.1);
+    }
+
+    .external-buttons a:hover::before {
+      opacity: 1;
+    }
+
+    .external-buttons a i,
+    .external-buttons a img {
+      position: relative;
+      z-index: 1;
+      font-size: 1.5rem;
+    }
+
+    .exploit-card {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 16px;
+      padding: 2rem;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .exploit-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(45deg,
+        transparent,
+        rgba(255, 255, 255, 0.1),
+        transparent
+      );
+      transform: translateX(-100%) rotate(45deg);
+      transition: transform 0.6s ease;
+    }
+
+    .exploit-card:hover::before {
+      transform: translateX(100%) rotate(45deg);
+    }
+
+    .exploit-card:hover {
+      transform: translateY(-10px);
+      background: rgba(255, 255, 255, 0.1);
+      box-shadow: 
+        0 10px 30px rgba(0, 255, 255, 0.1),
+        0 -10px 30px rgba(255, 0, 255, 0.1);
+    }
+
+    .gradient-text {
+      background: linear-gradient(
+        45deg,
+        var(--primary-color),
+        var(--secondary-color),
+        var(--accent-color)
+      );
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      animation: gradientFlow 6s linear infinite;
+      background-size: 200% 200%;
+    }
+
+    @keyframes gradientFlow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    #music-visualizer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 60px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      gap: 3px;
+      padding: 10px;
+      background: linear-gradient(to top, 
+        rgba(0, 0, 0, 0.9),
+        rgba(0, 0, 0, 0.5)
+      );
+      z-index: 100;
+    }
+
+    .visualizer-bar {
+      width: 4px;
+      background: linear-gradient(to top,
+        var(--primary-color),
+        var(--secondary-color),
+        var(--accent-color)
+      );
+      border-radius: 2px;
+      transition: height 0.1s ease;
+    }
+  </style>
+</head>
+<body class="text-white">
+  <div id="overlay">
+    <div class="text-center">
+      <h1 class="gradient-text text-5xl font-bold mb-6">Welcome to My Universe</h1>
+      <p class="text-2xl animate-bounce">Click to Enter</p>
+    </div>
+  </div>
+
+  <div class="container mx-auto flex items-center justify-center min-h-screen py-20">
+    <div class="profile-container neon-border">
+      <div class="profile-image">
+        <img src="https://yt3.googleusercontent.com/IVqzx0L3Ffpapttg-WK5yU9frk4AIVKixHnmmQjQ7RLrt4e66-7Ox6srKG_QVat5ceEq-98-s9s=s160-c-k-c0x00ffffff-no-rj" 
+             alt="Jhondrhey">
+      </div>
+      <h2 class="gradient-text text-5xl font-bold mb-4">Jhondrhey</h2>
+      <p id="typed-text" class="text-xl text-gray-300 italic mb-6 min-h-[28px]">Loading...</p>
+      
+      <div class="external-buttons">
+        <a href="https://discord.gg/UpsVZg5S27" target="_blank">
+          <i class="fab fa-discord"></i>
+        </a>
+        <a href="http://executorx-dcs.duckdns.org:6189" target="_blank">
+          <img src="https://yt3.googleusercontent.com/IVqzx0L3Ffpapttg-WK5yU9frk4AIVKixHnmmQjQ7RLrt4e66-7Ox6srKG_QVat5ceEq-98-s9s=s160-c-k-c0x00ffffff-no-rj" 
+               alt="Custom Icon" 
+               style="width: 32px; height: 32px;">
+        </a>
+        <a href="https://www.paypal.com/paypalme/my/profile" target="_blank">
+          <i class="fab fa-paypal"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="container mx-auto mt-10 text-center px-4 mb-24">
+    <h2 class="gradient-text text-4xl font-bold mb-12">My Exploits</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+      <div class="exploit-card">
+        <h3 class="gradient-text text-2xl font-bold mb-4">ExecutorX</h3>
+        <p class="text-gray-300 text-lg">Fast Bypass APIs with cutting-edge performance</p>
+      </div>
+      <div class="exploit-card">
+        <h3 class="gradient-text text-2xl font-bold mb-4">ScriptNova</h3>
+        <p class="text-gray-300 text-lg">Premium Script Hub for Enhanced Roblox Gaming</p>
+      </div>
+      <div class="exploit-card">
+        <h3 class="gradient-text text-2xl font-bold mb-4">SynoLite</h3>
+        <p class="text-gray-300 text-lg">Next-Gen Executor with Smart Updates</p>
+      </div>
+    </div>
+  </div>
+
+  <div id="music-visualizer"></div>
+
+  <audio id="background-music" src="https://encrypted-bytes.com/download/7f8a4a7a14c62834c68dfa7df54d21665c6e2d77d96465aa2789d2a285f98924/7aa22f4e1797c53e3426c1623ddf89c4/02fc49e803d30dd3649852d86ddb3d90954f5e6e8a87491726f5065cf95ce36f1c96325367a2bc775cd914be88fc5c0c06d763f5482d43ab086950abe9d5fd37afa0f3ba4dbff1cec0fa9f51b0a11049/3212c04deae956665b7fbd833d4dc96d" preload="auto"></audio>
+
+  <script>
+    const texts = [
+      "I like Korean girls ✨", 
+      "Roblox ExploitS 🎮", 
+      "YouTube: mrscript5 🎥", 
+      "Chill Vibes Only 🌟"
+    ];
+    let index = 0, charIndex = 0, currentText = '', isDeleting = false;
+
+    function typeEffect() {
+      if (index >= texts.length) index = 0;
+      currentText = texts[index];
+      let displayText = isDeleting ? currentText.substring(0, charIndex--) : currentText.substring(0, charIndex++);
+      document.getElementById("typed-text").textContent = displayText;
+
+      if (!isDeleting && charIndex === currentText.length) {
+        isDeleting = true;
+        setTimeout(typeEffect, 1500);
+      } else if (isDeleting && charIndex === 0) {
+        isDeleting = false;
+        index++;
+        setTimeout(typeEffect, 300);
+      } else {
+        setTimeout(typeEffect, isDeleting ? 50 : 100);
+      }
+    }
+
+    const visualizer = document.getElementById('music-visualizer');
+    const BAR_COUNT = 128;
+    
+    for (let i = 0; i < BAR_COUNT; i++) {
+      const bar = document.createElement('div');
+      bar.className = 'visualizer-bar';
+      visualizer.appendChild(bar);
+    }
+
+    function startBackgroundMusic() {
+      const music = document.getElementById('background-music');
+      const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      const analyser = audioContext.createAnalyser();
+      const source = audioContext.createMediaElementSource(music);
+      
+      source.connect(analyser);
+      analyser.connect(audioContext.destination);
+      
+      analyser.fftSize = 256;
+      const bufferLength = analyser.frequencyBinCount;
+      const dataArray = new Uint8Array(bufferLength);
+      const bars = document.querySelectorAll('.visualizer-bar');
+      
+      function updateVisualizer() {
+        analyser.getByteFrequencyData(dataArray);
+        
+        bars.forEach((bar, index) => {
+          const barHeight = dataArray[index] * 0.7;
+          bar.style.height = `${barHeight}px`;
+        });
+        
+        requestAnimationFrame(updateVisualizer);
+      }
+      
+      music.play();
+      updateVisualizer();
+    }
+
+    document.getElementById('overlay').addEventListener('click', () => {
+      document.getElementById('overlay').classList.add('hidden');
+      startBackgroundMusic();
+    });
+
+    typeEffect();
+  </script>
+</body>
+</html>
